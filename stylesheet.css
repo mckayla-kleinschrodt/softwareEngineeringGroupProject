@@ -1,0 +1,103 @@
+@import url(//fonts.google.com/specimen/Poiret+One);
+@import url(//fonts.google.com/specimen/Righteous);
+
+body {
+	background-color: #f7ece6;
+}
+h1 {
+	text-align: right;
+	font-family: 'poiret one' ;
+	font-size: 4.5em;
+	color: 	#904d2f;
+}
+h2 {
+	font-family: 'poiret one';
+	font-size: 2em;
+	color: #af7c65;
+}
+
+h3 {
+	font-family: 'rockwell';
+	font-size: 1.25em;
+	text-align: center;	
+	color: #CE9172;
+}
+
+p {
+	color: #8e5441;
+	font-family: 'poiret one' ;
+	font-size: 1.15em; 
+	margin: 50px;
+}
+a:link, ul li a:visited {
+  	color: #643420;
+	text-decoration: none;
+}
+
+footer {
+	margin-top: 50%;
+}
+
+/*index page*/
+
+.hello {
+ 	margin-left: 65%;
+}
+
+
+/*About Me*/
+table {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+table, th, td {
+	border: 1.5px solid #904d2f;	
+}
+
+td {
+	color: #8e5441;
+	font-family: 'poiret one' ;
+	font-size: 1em; 
+}
+caption, th {
+	text-align: center;
+	font-family: 'rockwell' ;
+	font-weight: bold;
+	color: #643420;
+	font-size: 1.25em;
+}
+
+/*Navigation Header*/	
+nav {
+	background: url(terrazzo.jpg) repeat-x;
+}
+nav ul {
+  	padding: 0;
+  	list-style-type: none;
+  	display: flex;
+  	flex-wrap: wrap;
+	text-align: center;
+	font-family: 'rockwell' ;
+	font-weight: bold;
+}
+
+nav ul li {
+ 	font-size: 1em;
+  	flex: 1 1 10%;
+}
+nav ul li a { 	
+  	display: block; 	
+  	padding: 1em 1em; 		
+  	border-radius: .5em; 
+  	margin: .25em; 
+	justify-content: space-evenly;
+} 	
+
+nav ul li a:link, nav ul li a:visited {
+  	color: #643420;
+	text-decoration: none;
+}
+nav ul li a:focus, nav ul li a:hover, nav ul li a:active {
+  	color: #8e5441;
+}
