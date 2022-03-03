@@ -1,5 +1,5 @@
 from tkinter import *
-from tkinter import ttk
+# from tkinter import ttk
 
 root = Tk()
 root.geometry("500x500")
@@ -16,8 +16,6 @@ class frontEnd():
     position = Entry(root, width= 40)
     position.focus_get()
     position.pack()
-
-
     
     ssnLabel = Label(root, text = "SSN: ")
     ssnLabel.pack()
