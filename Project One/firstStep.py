@@ -6,6 +6,10 @@ import re
 root = Tk()
 root.geometry("200x200")
 
+
+open('EmployeeDatabase.pkl', 'w+')
+
+
 #local employee dictionary 
 empDict = {'df8988': ['Ron Brown', 'HR', '123-45-6784', '348 Hard dr', 'yahoo@yahoo.com', '123-456-7892', 'anger managment']}
 
@@ -16,6 +20,10 @@ phoneFormat = r'^\d\d\d-\d\d\d-\d\d\d\d$'
 
 #functino to locally add employees
 def LocalAddEmployeeData():
+    
+    with open('EmployeeDatabase.pkl', 'rb') as F:
+        localData = pickle.load(F)
+
     #create list of employee attributes
     empList= []
 
@@ -47,36 +55,49 @@ def LocalAddEmployeeData():
     #save the entry as a dictionary using the ID as the key
     empDict[EmployeeID] = empList
 
+    with open('EmployeeDatabase.pkl', 'wb') as F:
+        pickle.dump(localData, F)
+
     #end function
     print("Thank You!")
+
 
 #display the database
 def displayDB(empDict):
     print("Database so far: ",empDict)
 
-#pickle the data
-def DataPickle(empDict):
-    with open('EmployeeDatabase.pkl', 'wb') as F:
-        pickle.dump(empDict, F)
-
+def DataPickleRead():
     with open('EmployeeDatabase.pkl', 'rb') as F:
-        E = pickle.load(F)
-    print("Pickled Data: ", E)
+        localData = pickle.load(F)
+    return localData
 
+def DumpPickle():
+    localData = DataPickleRead()
+    print("Latest Pickle Data: ", localData)
+
+#function to search data that has been pickled
+def QueryPickle():
+    localData = DataPickleRead()
+
+    st = input("Enter Search Term: ")
+    for i in localData:
+        if st in localData[i]:
+            print(i, localData[i])
 
 #button to prompt user to add employee
 addEmp = Button(text = "Add Employee", command = LocalAddEmployeeData)
 
-#button to pickle the data
-pickleDB = Button(text = "Pickle", command = (lambda: DataPickle(empDict)))
-
 #button to show the database
 showDB = Button(text = "Show Database",  command = (lambda: displayDB(empDict)))
 
+searchEmployeeDatabase = Button(text = "Search Employee Database", command = QueryPickle)
+
 #add buttons to tKinter window
 addEmp.pack()
-pickleDB.pack()
 showDB.pack()
+searchEmployeeDatabase.pack()
+
+#close('EmployeeDatabase.pkl')
 
 #run the page
 root.mainloop()
