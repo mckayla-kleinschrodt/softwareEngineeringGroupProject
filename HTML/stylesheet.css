@@ -2,35 +2,35 @@
 @import url(//fonts.google.com/specimen/Righteous);
 
 body {
-	background-color: #f7ece6;
+	background-color: #b6d0df;
 }
 h1 {
 	text-align: right;
-	font-family: 'poiret one' ;
+	font-family: 'rockwell' ;
 	font-size: 4.5em;
-	color: 	#904d2f;
+	color: 	#2e3e47;
 }
 h2 {
-	font-family: 'poiret one';
+	font-family: 'rockwell';
 	font-size: 2em;
-	color: #af7c65;
+	color: #2e3e47;
 }
 
 h3 {
 	font-family: 'rockwell';
 	font-size: 1.25em;
 	text-align: center;	
-	color: #CE9172;
+	color: #2e3e47;
 }
 
 p {
-	color: #8e5441;
-	font-family: 'poiret one' ;
+	color: #2e3e47;
+	font-family: 'rockwell' ;
 	font-size: 1.15em; 
 	margin: 50px;
 }
 a:link, ul li a:visited {
-  	color: #643420;
+  	color: #f6fafd;
 	text-decoration: none;
 }
 
@@ -52,11 +52,11 @@ table {
 }
 
 table, th, td {
-	border: 1.5px solid #904d2f;	
+	border: 1.5px solid #2e3e47;	
 }
 
 td {
-	color: #8e5441;
+	color:#2e3e47;
 	font-family: 'poiret one' ;
 	font-size: 1em; 
 }
@@ -64,7 +64,7 @@ caption, th {
 	text-align: center;
 	font-family: 'rockwell' ;
 	font-weight: bold;
-	color: #643420;
+	color: #2e3e47;
 	font-size: 1.25em;
 }
 
@@ -95,9 +95,9 @@ nav ul li a {
 } 	
 
 nav ul li a:link, nav ul li a:visited {
-  	color: #643420;
+  	color: #2e3e47;
 	text-decoration: none;
 }
 nav ul li a:focus, nav ul li a:hover, nav ul li a:active {
-  	color: #8e5441;
+  	color: #2e3e47;
 }
