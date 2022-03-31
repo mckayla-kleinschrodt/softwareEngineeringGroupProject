@@ -1,10 +1,12 @@
 from tkinter import *
 from PIL import Image, ImageTk
+import json
+from datetime import *
 
 #------------------------------set tKinter window-------------------------------
 root = Tk()
 root.geometry("750x500")
-root.title('Database Access Window')
+root.title('BarMaster')
 root['background'] = '#6495ED'
 
 
@@ -15,17 +17,98 @@ welcomeTitle.grid(row = 0, column = 6)
 instructions = Label(text = "please choose the drink you are serving to update the inventory", background='#6495ED', font = 'Helvetica 18')
 instructions.grid(row=1, column = 6)
 
-alcoholicTitle = Label(text = "The popular alcoholic Orders:", background='#6495ED', font = 'Helvetica 18 bold')
+alcoholicTitle = Label(text = "The Popular Alcoholic Drinks:", background='#6495ED', font = 'Helvetica 18 bold')
 alcoholicTitle.grid(row = 5, column = 6)
 
-virginTitle = Label(text = "The popular virgin Orders:", background='#6495ED', font = 'Helvetica 18 bold')
-virginTitle.grid(row = 13, column = 6)
+nonAlcoholicTitle = Label(text = "The Popular Non-Alcoholic Drinks:", background='#6495ED', font = 'Helvetica 18 bold')
+nonAlcoholicTitle.grid(row = 13, column = 6)
 
+
+# we need 2 json files, one for inventory, and one for a log
+# below functions will update these files
+# need a function that will ask for employee number, and return the beginnning of a log statement, "Emp # orderd ______ at 0:00 PM"
 #---------class to order drinks, update inventory, and add to order log---------
+def transactionData():
+    empID = int(input("Please enter employee ID # from 1 - 10: "))
+
+    if empID == 1:
+        employee = 'Employee 1'
+    elif empID == 2:
+        employee = 'Employee 2'
+    elif empID == 3:
+        employee = 'Employee 3'
+    elif empID == 4: 
+        employee = 'Employee 4'
+    elif empID == 5: 
+        employee = 'Employee 5'
+    elif empID == 6: 
+        employee = 'Employee 6'
+    elif empID == 7: 
+        employee = 'Employee 7'
+    elif empID == 8:
+        employee = 'Employee 8'
+    elif empID == 9:
+        employee = 'Employee 9'
+    elif empID == 10:
+        employee = 'Employee 10'
+    else:
+        print("Invalid Employee ID entered. Please quit and try again!")
+
+    print("hello")
+    ct = datetime.now()
+    ts = ct.timestamp()
+
+    log_message = f"At {ts}, {employee} served a "
+    return str(log_message)
+    
+
+
+#class to hold drink functions
 class Orders:
     def cosmo():
-        return
-    def marg(): 
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data +="Cosmo"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        
+        #transactionData()
+        print("You placed an order for a Cosmo!")
+        
+
+        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['vodka'] -= 2
+        data['triple_sec'] -= 2
+        data['juice'] -= 1
+        data['fruit'] -= 1
+        
+        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        Time = datetime.now()
+
+        time_entry = {'time': Time}
+        drink_entry = {'drink': 'cosmo'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', 'r') as otherFile:
+            log = json.load(otherFile)
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        print("System log: ", log)
+
+        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', "w") as file:
+            json.dump(log,file)
+        
+        
+
+    def marg():
        return
     def pina():
         return    
@@ -83,7 +166,7 @@ white = ImageTk.PhotoImage(whiteResize)
 
 #-------------------Drink Buttons with images and labels------------------------
 arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command= lambda:Orders.arnold(), compound = TOP)
-cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command= lambda:Orders.cosmo, compound = TOP)
+cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command= Orders.cosmo, compound = TOP)
 shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command= lambda:Orders.shirley, compound = TOP)
 margButton = Button(root, text = 'Margarita', image=marg, command= lambda:Orders.marg, compound = TOP)
 mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command= lambda:Orders.mocktail, compound = TOP)
