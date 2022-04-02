@@ -54,11 +54,9 @@ def transactionData():
     else:
         print("Invalid Employee ID entered. Please quit and try again!")
 
-    print("hello")
     ct = datetime.now()
-    ts = ct.timestamp()
 
-    log_message = f"At {ts}, {employee} served a "
+    log_message = f"At {ct}, {employee} served a "
     return str(log_message)
     
 
@@ -94,8 +92,8 @@ class Orders:
         drink_entry = {'drink': 'cosmo'}
         transaction_entry = {'transaction': transaction_data}
 
-        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', 'r') as otherFile:
-            log = json.load(otherFile)
+        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', 'r') as logFile:
+            log = json.load(logFile)
 
         log.append(time_entry)
         log.append(drink_entry)
@@ -106,8 +104,6 @@ class Orders:
         with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', "w") as file:
             json.dump(log,file)
         
-        
-
     def marg():
        return
     def pina():
