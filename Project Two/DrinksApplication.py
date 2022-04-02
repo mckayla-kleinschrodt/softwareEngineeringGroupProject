@@ -1,5 +1,5 @@
 from tkinter import *
-from PIL import Image, ImageTk
+from PIL import ImageTk, Image 
 import json
 from datetime import *
 
@@ -54,11 +54,9 @@ def transactionData():
     else:
         print("Invalid Employee ID entered. Please quit and try again!")
 
-    print("hello")
     ct = datetime.now()
-    ts = ct.timestamp()
 
-    log_message = f"At {ts}, {employee} served a "
+    log_message = f"At {ct}, {employee} served a "
     return str(log_message)
     
 
@@ -74,10 +72,10 @@ class Orders:
 
         
         #transactionData()
-        print("You placed an order for a Cosmo!")
+        print("\nYou placed an order for a Cosmo!")
         
 
-        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Inventory.json', 'r') as jsonFile:
+        with open('Inventory.json', 'r') as jsonFile:
             data = json.load(jsonFile)
 
         data['vodka'] -= 2
@@ -85,26 +83,25 @@ class Orders:
         data['juice'] -= 1
         data['fruit'] -= 1
         
-        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Inventory.json', 'w') as jsonFile:
+        with open('Inventory.json', 'w') as jsonFile:
             json.dump(data,jsonFile)
 
-        Time = datetime.now()
-
-        time_entry = {'time': Time}
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
         drink_entry = {'drink': 'cosmo'}
         transaction_entry = {'transaction': transaction_data}
 
-        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', 'r') as otherFile:
-            log = json.load(otherFile)
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
 
         log.append(time_entry)
         log.append(drink_entry)
         log.append(transaction_entry)
 
-        print("System log: ", log)
-
-        with open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/systemLog.json', "w") as file:
-            json.dump(log,file)
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
         
         
 
@@ -128,39 +125,39 @@ class Orders:
 
     
 #-----------open and size images -- fix paths to not be absolute----------------
-cosmoImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/cosmo.png')
+cosmoImg = Image.open('Photos/cosmo.png')
 cosmoResize = cosmoImg.resize((80, 80))
 cosmo = ImageTk.PhotoImage(cosmoResize)
 
-arnoldImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/arnoldPalmer.png')
+arnoldImg = Image.open('Photos/arnoldPalmer.png')
 arnoldResize = arnoldImg.resize((80, 80))
 arnold = ImageTk.PhotoImage(arnoldResize)
 
-shirleyImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/shirleyTemple.png')
+shirleyImg = Image.open('Photos/shirleyTemple.png')
 shirleyResize = shirleyImg.resize((80, 80))
 shirley= ImageTk.PhotoImage(shirleyResize)
 
-margImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/marg.png')
+margImg = Image.open('Photos/marg.png')
 margResize = margImg.resize((80, 80))
 marg= ImageTk.PhotoImage(margResize)
 
-mocktailImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/mocktail.png')
+mocktailImg = Image.open('Photos/mocktail.png')
 mocktailResize = mocktailImg.resize((80, 80))
 mocktail = ImageTk.PhotoImage(mocktailResize)
 
-muleImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/mule.png')
+muleImg = Image.open('Photos/mule.png')
 muleResize = muleImg.resize((80, 80))
 mule = ImageTk.PhotoImage(muleResize)
 
-pinaColadaImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/pinaColada.png')
+pinaColadaImg = Image.open('Photos/pinaColada.png')
 pinaColadaResize = pinaColadaImg.resize((80, 80))
 pina = ImageTk.PhotoImage(pinaColadaResize)
 
-strawberryImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/strawDaq.png')
+strawberryImg = Image.open('Photos/strawDaq.png')
 strawberryResize = strawberryImg.resize((80, 80))
 strawberry = ImageTk.PhotoImage(strawberryResize)
 
-whiteImg = Image.open('/Users/kayla/Documents/GitHub/softwareEngineeringGroupProject/Project Two/Photos/whiteLady.png')
+whiteImg = Image.open('Photos/whiteLady.png')
 whiteResize = whiteImg.resize((80, 80))
 white = ImageTk.PhotoImage(whiteResize)
 
