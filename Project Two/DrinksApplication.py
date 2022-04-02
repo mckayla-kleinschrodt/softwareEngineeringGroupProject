@@ -5,7 +5,7 @@ from datetime import *
 
 #------------------------------set tKinter window-------------------------------
 root = Tk()
-root.geometry("750x500")
+root.geometry("1000x600")
 root.title('BarMaster')
 root['background'] = '#6495ED'
 
@@ -162,27 +162,27 @@ whiteResize = whiteImg.resize((80, 80))
 white = ImageTk.PhotoImage(whiteResize)
 
 #-------------------Drink Buttons with images and labels------------------------
-arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command= lambda:Orders.arnold(), compound = TOP)
+arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command= Orders.arnold(), compound = TOP)
 cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command= Orders.cosmo, compound = TOP)
-shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command= lambda:Orders.shirley, compound = TOP)
-margButton = Button(root, text = 'Margarita', image=marg, command= lambda:Orders.marg, compound = TOP)
-mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command= lambda:Orders.mocktail, compound = TOP)
-muleButton = Button(root, text = 'Mexican Mule', image=mule, command= lambda:Orders.mule, compound = TOP)
-pinaButton = Button(root, text = 'Piña Colada', image=pina, command= lambda:Orders.pina, compound = TOP)
-daqButton = Button(root, text = 'Strawberry Daquiri', image=strawberry, command= lambda:Orders.daq, compound = TOP)
-whiteButton = Button(root, text = 'White Lady', image=white, command= lambda:Orders.white, compound = TOP)
+shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command= Orders.shirley, compound = TOP)
+margButton = Button(root, text = 'Margarita', image=marg, command= Orders.marg, compound = TOP)
+mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command= Orders.mocktail, compound = TOP)
+muleButton = Button(root, text = 'Mexican Mule', image=mule, command= Orders.mule, compound = TOP)
+pinaButton = Button(root, text = 'Piña Colada', image=pina, command= Orders.pina, compound = TOP)
+daqButton = Button(root, text = 'Strawberry Daquiri', image=strawberry, command= Orders.daq, compound = TOP)
+whiteButton = Button(root, text = 'White Lady', image=white, command= Orders.white, compound = TOP)
 
 #----------------Position and post buttons to tkinter window--------------------
 muleButton.grid(row=6, column = 4)
 margButton.grid(row=6, column = 6)
 cosmoButton.grid(row=6, column = 8)
 
-daqButton.grid(row=10, column = 6)
 pinaButton.grid(row=10, column = 4)
+daqButton.grid(row=10, column = 6)
 whiteButton.grid(row=10, column = 8)
 
-shirleyButton.grid(row=14, column = 6)
 arnoldButton.grid(row=14, column = 4)
+shirleyButton.grid(row=14, column = 6)
 mocktailButton.grid(row=14, column = 8)
 
 
