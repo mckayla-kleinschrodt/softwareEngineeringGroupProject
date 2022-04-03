@@ -5,29 +5,24 @@ from datetime import *
 
 #------------------------------set tKinter window-------------------------------
 root = Tk()
-root.geometry("1000x600")
-root.title('BarMaster')
-root['background'] = '#6495ED'
-
+root.geometry("1000x1000")
+root.title('Bar Master')
+root['background'] = '#97a258'
 
 #-------------------text labels for sections on tKinter window------------------
-welcomeTitle = Label(text = "Welcome to the Bar!\n\n", background='#6495ED', font = 'Helvetica 20 bold')
+welcomeTitle = Label(text = "Welcome to the Bar!\n\n", background='#97a258', font = 'Helvetica 20 bold')
 welcomeTitle.grid(row = 0, column = 6)
 
-instructions = Label(text = "please choose the drink you are serving to update the inventory", background='#6495ED', font = 'Helvetica 18')
+instructions = Label(text = "please choose the drink you are serving to update the inventory", background='#97a258', font = 'Helvetica 18')
 instructions.grid(row=1, column = 6)
 
-alcoholicTitle = Label(text = "The Popular Alcoholic Drinks:", background='#6495ED', font = 'Helvetica 18 bold')
+alcoholicTitle = Label(text = "The Popular Alcoholic Drinks:", background='#97a258', font = 'Helvetica 18 bold')
 alcoholicTitle.grid(row = 5, column = 6)
 
-nonAlcoholicTitle = Label(text = "The Popular Non-Alcoholic Drinks:", background='#6495ED', font = 'Helvetica 18 bold')
+nonAlcoholicTitle = Label(text = "The Popular Non-Alcoholic Drinks:", background='#97a258', font = 'Helvetica 18 bold')
 nonAlcoholicTitle.grid(row = 13, column = 6)
 
-
-# we need 2 json files, one for inventory, and one for a log
-# below functions will update these files
-# need a function that will ask for employee number, and return the beginnning of a log statement, "Emp # orderd ______ at 0:00 PM"
-#---------class to order drinks, update inventory, and add to order log---------
+#-------------------functino to get employee id and time stamp------------------
 def transactionData():
     empID = int(input("Please enter employee ID # from 1 - 10: "))
 
@@ -58,23 +53,117 @@ def transactionData():
 
     log_message = f"At {ct}, {employee} served a "
     return str(log_message)
-    
 
+#---------------------function to reset drink inventory-------------------------
+def reset():
+    with open('Inventory.json', 'r') as jsonFile:
+        data = json.load(jsonFile)
 
-#class to hold drink functions
+    data['vodka'] = 999
+    data['gin'] = 999
+    data['tequila'] = 999
+    data['rum'] = 999
+    data['ginger_beer'] = 999
+    data['triple_sec'] = 999
+    data['cream'] = 999
+    data['juice'] = 999
+    data['soda_water'] = 999
+    data['tea'] = 999
+    data['lemonade'] = 999
+    data['grenadine'] = 999
+    data['fruit'] = 999
+    data['ice'] = 999
+
+    with open('Inventory.json', 'w') as jsonFile:
+        json.dump(data, jsonFile)
+
+#---------class to order drinks, update inventory, and add to order log---------
 class Orders:
+#------------------------------first row functions------------------------------
+    def mule():
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Mexican Mule"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        #transactionData()
+        print("\nYou placed an order for a Mexican Mule!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['tequila'] -= 2
+        data['ginger_beer'] -= 2
+        data['juice'] -= 1
+        data['fruit'] -= 1
+        
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'mule'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+    
+    def marg():
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Margarita"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        print("\nYou placed an order for a Margarita!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['tequila'] -= 2
+        data['triple_sec'] -= 2
+        data['juice'] -= 1
+        data['fruit'] -= 1
+        
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'marg'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+    
     def cosmo():
         transactionLog = []
         transaction_data = transactionData()
         transaction_data +="Cosmo"
         print(transaction_data)
         transactionLog.append(transaction_data)
-
-        
-        #transactionData()
+      
         print("\nYou placed an order for a Cosmo!")
         
-
         with open('Inventory.json', 'r') as jsonFile:
             data = json.load(jsonFile)
 
@@ -102,27 +191,233 @@ class Orders:
 
         with open('systemLog.json', "w") as file:
             json.dump(log, file)
-        
-        
-
-    def marg():
-       return
+         
+#-----------------------------second row functions------------------------------
     def pina():
-        return    
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Pina Colada"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        print("\nYou placed an order for a Piña Colada!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['rum'] -= 2
+        data['cream'] -= 2
+        data['juice'] -= 1
+        data['fruit'] -= 1
+        data['ice'] -= 1
+
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'pina'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+    
     def daq():
-        return
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Daiquiri"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        print("\nYou placed an order for a Strawberry Daiquiri!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['rum'] -= 2
+        data['soda_water'] -= 2
+        data['juice'] -= 1
+        data['fruit'] -= 2
+        
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'daq'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+   
     def white():
-        return
-    def mule():
-        return
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "White Lady"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        print("\nYou placed an order for a White Lady!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['gin'] -= 2
+        data['triple_sec'] -= 2
+        data['juice'] -= 1
+        data['egg'] -= 1
+
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'white'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+ 
+#-----------------------non-alcoholic drink functions---------------------------
     def arnold():
-        return
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Arnold Palmer"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        #transactionData()
+        print("\nYou placed an order for an Arnold Palmer!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['tea'] -= 1
+        data['lemonade'] -= 2
+        data['fruit'] -= 3
+        data['ice'] -= 2
+
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'arnold'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+    
     def shirley():
-        return
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Shirley Temple"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
+
+        print("\nYou placed an order for a Shirley Temple!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
+
+        data['soda_water'] -= 2
+        data['grenadine'] -= 1
+        data['fruit'] -= 1
+        
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'shirley'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+    
     def mocktail():
-        return
+        transactionLog = []
+        transaction_data = transactionData()
+        transaction_data += "Island Mocktail"
+        print(transaction_data)
+        transactionLog.append(transaction_data)
 
+        #transactionData()
+        print("\nYou placed an order for an Island Mocktail!")
+        
+        with open('Inventory.json', 'r') as jsonFile:
+            data = json.load(jsonFile)
 
+        data['cream'] -= 1
+        data['juice'] -= 2
+        data['fruit'] -= 3
+        data['ice'] -= 2
+
+        with open('Inventory.json', 'w') as jsonFile:
+            json.dump(data,jsonFile)
+
+        currentTime = datetime.now()
+        formattedTime = currentTime.strftime("%m/%d/%Y, %H:%M:%S")
+        time_entry = {'time': formattedTime}
+        drink_entry = {'drink': 'mocktail'}
+        transaction_entry = {'transaction': transaction_data}
+
+        with open('systemLog.json', 'r') as otherFile:
+            log = json.loads(otherFile.read())
+
+        log.append(time_entry)
+        log.append(drink_entry)
+        log.append(transaction_entry)
+
+        with open('systemLog.json', "w") as file:
+            json.dump(log, file)
+
+    
     
 #-----------open and size images -- fix paths to not be absolute----------------
 cosmoImg = Image.open('Photos/cosmo.png')
@@ -162,17 +457,21 @@ whiteResize = whiteImg.resize((80, 80))
 white = ImageTk.PhotoImage(whiteResize)
 
 #-------------------Drink Buttons with images and labels------------------------
-arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command= Orders.arnold(), compound = TOP)
-cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command= Orders.cosmo, compound = TOP)
-shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command= Orders.shirley, compound = TOP)
+arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command=Orders.arnold(), compound = TOP)
+cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command=Orders.cosmo, compound = TOP)
+shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command=Orders.shirley, compound = TOP)
 margButton = Button(root, text = 'Margarita', image=marg, command= Orders.marg, compound = TOP)
-mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command= Orders.mocktail, compound = TOP)
-muleButton = Button(root, text = 'Mexican Mule', image=mule, command= Orders.mule, compound = TOP)
+mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command=Orders.mocktail, compound = TOP)
+muleButton = Button(root, text = 'Mexican Mule', image=mule, command= lambda:Orders.mule, compound = TOP)
 pinaButton = Button(root, text = 'Piña Colada', image=pina, command= Orders.pina, compound = TOP)
-daqButton = Button(root, text = 'Strawberry Daquiri', image=strawberry, command= Orders.daq, compound = TOP)
+daqButton = Button(root, text = 'Strawberry Daquiri', image=strawberry, command=Orders.daq, compound = TOP)
 whiteButton = Button(root, text = 'White Lady', image=white, command= Orders.white, compound = TOP)
 
+
+resetButton = Button(root, text= 'Reset the Inventory', command = reset, background='#97a258')
 #----------------Position and post buttons to tkinter window--------------------
+resetButton.grid(row=16, column=6)
+
 muleButton.grid(row=6, column = 4)
 margButton.grid(row=6, column = 6)
 cosmoButton.grid(row=6, column = 8)
