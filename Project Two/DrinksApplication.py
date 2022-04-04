@@ -5,7 +5,7 @@ from datetime import *
 
 #------------------------------set tKinter window-------------------------------
 root = Tk()
-root.geometry("1000x1000")
+root.geometry("900x600")
 root.title('Bar Master')
 root['background'] = '#97a258'
 
@@ -457,15 +457,15 @@ whiteResize = whiteImg.resize((80, 80))
 white = ImageTk.PhotoImage(whiteResize)
 
 #-------------------Drink Buttons with images and labels------------------------
-arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command=Orders.arnold(), compound = TOP)
-cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command=Orders.cosmo, compound = TOP)
-shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command=Orders.shirley, compound = TOP)
-margButton = Button(root, text = 'Margarita', image=marg, command= Orders.marg, compound = TOP)
-mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command=Orders.mocktail, compound = TOP)
-muleButton = Button(root, text = 'Mexican Mule', image=mule, command= lambda:Orders.mule, compound = TOP)
-pinaButton = Button(root, text = 'Piña Colada', image=pina, command= Orders.pina, compound = TOP)
-daqButton = Button(root, text = 'Strawberry Daquiri', image=strawberry, command=Orders.daq, compound = TOP)
-whiteButton = Button(root, text = 'White Lady', image=white, command= Orders.white, compound = TOP)
+arnoldButton =  Button(root, text = 'Arnold Palmer',    image=arnold,   command=Orders.arnold,      compound = TOP)
+cosmoButton =   Button(root, text = 'Cosmopolitan',     image=cosmo,    command=Orders.cosmo,       compound = TOP)
+shirleyButton = Button(root, text = 'Shirley Temple',   image=shirley,  command=Orders.shirley,     compound = TOP)
+margButton =    Button(root, text = 'Margarita',        image=marg,     command= Orders.marg,       compound = TOP)
+mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command=Orders.mocktail,    compound = TOP)
+muleButton =    Button(root, text = 'Mexican Mule',     image=mule,     command= Orders.mule,       compound = TOP)
+pinaButton =    Button(root, text = 'Piña Colada',      image=pina,     command= Orders.pina,       compound = TOP)
+daqButton =     Button(root, text = 'Strawberry Daquiri', image=strawberry, command=Orders.daq,     compound = TOP)
+whiteButton =   Button(root, text = 'White Lady',       image=white,    command= Orders.white,      compound = TOP)
 
 
 resetButton = Button(root, text= 'Reset the Inventory', command = reset, background='#97a258')
