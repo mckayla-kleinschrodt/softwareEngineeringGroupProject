@@ -3,9 +3,10 @@ from PIL import ImageTk, Image
 import json
 from datetime import *
 
+global entry
 #------------------------------set tKinter window-------------------------------
 root = Tk()
-root.geometry("900x600")
+root.geometry("1500x1500")
 root.title('Bar Master')
 root['background'] = '#97a258'
 
@@ -13,7 +14,7 @@ root['background'] = '#97a258'
 welcomeTitle = Label(text = "Welcome to the Bar!\n\n", background='#97a258', font = 'Helvetica 20 bold')
 welcomeTitle.grid(row = 0, column = 6)
 
-instructions = Label(text = "please choose the drink you are serving to update the inventory", background='#97a258', font = 'Helvetica 18')
+instructions = Label(text = "Please enter your employee ID #, then press the button for the drink that you are ordering!", background='#97a258', font = 'Helvetica 18')
 instructions.grid(row=1, column = 6)
 
 alcoholicTitle = Label(text = "The Popular Alcoholic Drinks:", background='#97a258', font = 'Helvetica 18 bold')
@@ -22,9 +23,23 @@ alcoholicTitle.grid(row = 5, column = 6)
 nonAlcoholicTitle = Label(text = "The Popular Non-Alcoholic Drinks:", background='#97a258', font = 'Helvetica 18 bold')
 nonAlcoholicTitle.grid(row = 13, column = 6)
 
+
+#enter userID in tkinter window
+userInputLab = Label(root, text="Please enter employee ID # from 1 - 10: ", font="Helvetica 18", background='#97a258')
+userInputLab.grid(row = 2, column = 6)
+#get and set the entry variable -- employeeID
+entry = Entry(root, width = 40)
+entry.focus_set()
+entry.grid(row = 3, column = 6)
+
+# Button just takes labmda, but its more psychological that you've entered youre empID
+entryButton = Button(root, text="Done!", font="Helvetica 18", command=lambda:Orders)
+entryButton.grid(row = 4, column = 6)
+
 #-------------------functino to get employee id and time stamp------------------
 def transactionData():
-    empID = int(input("Please enter employee ID # from 1 - 10: "))
+    
+    empID = int(entry.get())
 
     if empID == 1:
         employee = 'Employee 1'
@@ -47,7 +62,7 @@ def transactionData():
     elif empID == 10:
         employee = 'Employee 10'
     else:
-        print("Invalid Employee ID entered. Please quit and try again!")
+       employee = 'Employee 0'
 
     ct = datetime.now()
 
@@ -76,6 +91,8 @@ def reset():
 
     with open('Inventory.json', 'w') as jsonFile:
         json.dump(data, jsonFile)
+    
+    print("Inventory has been refilled!")
 
 #---------class to order drinks, update inventory, and add to order log---------
 class Orders:
@@ -87,7 +104,6 @@ class Orders:
         print(transaction_data)
         transactionLog.append(transaction_data)
 
-        #transactionData()
         print("\nYou placed an order for a Mexican Mule!")
         
         with open('Inventory.json', 'r') as jsonFile:
@@ -154,6 +170,7 @@ class Orders:
 
         with open('systemLog.json', "w") as file:
             json.dump(log, file)
+        #entry.delete(0, END)
     
     def cosmo():
         transactionLog = []
@@ -421,56 +438,59 @@ class Orders:
     
 #-----------open and size images -- fix paths to not be absolute----------------
 cosmoImg = Image.open('Photos/cosmo.png')
-cosmoResize = cosmoImg.resize((80, 80))
+cosmoResize = cosmoImg.resize((150, 100))
 cosmo = ImageTk.PhotoImage(cosmoResize)
 
 arnoldImg = Image.open('Photos/arnoldPalmer.png')
-arnoldResize = arnoldImg.resize((80, 80))
+arnoldResize = arnoldImg.resize((150, 100))
 arnold = ImageTk.PhotoImage(arnoldResize)
 
 shirleyImg = Image.open('Photos/shirleyTemple.png')
-shirleyResize = shirleyImg.resize((80, 80))
+shirleyResize = shirleyImg.resize((150, 100))
 shirley= ImageTk.PhotoImage(shirleyResize)
 
 margImg = Image.open('Photos/marg.png')
-margResize = margImg.resize((80, 80))
+margResize = margImg.resize((150, 100))
 marg= ImageTk.PhotoImage(margResize)
 
 mocktailImg = Image.open('Photos/mocktail.png')
-mocktailResize = mocktailImg.resize((80, 80))
+mocktailResize = mocktailImg.resize((150, 100))
 mocktail = ImageTk.PhotoImage(mocktailResize)
 
 muleImg = Image.open('Photos/mule.png')
-muleResize = muleImg.resize((80, 80))
+muleResize = muleImg.resize((150, 100))
 mule = ImageTk.PhotoImage(muleResize)
 
 pinaColadaImg = Image.open('Photos/pinaColada.png')
-pinaColadaResize = pinaColadaImg.resize((80, 80))
+pinaColadaResize = pinaColadaImg.resize((150, 100))
 pina = ImageTk.PhotoImage(pinaColadaResize)
 
 strawberryImg = Image.open('Photos/strawDaq.png')
-strawberryResize = strawberryImg.resize((80, 80))
+strawberryResize = strawberryImg.resize((150, 100))
 strawberry = ImageTk.PhotoImage(strawberryResize)
 
 whiteImg = Image.open('Photos/whiteLady.png')
-whiteResize = whiteImg.resize((80, 80))
+whiteResize = whiteImg.resize((150, 100))
 white = ImageTk.PhotoImage(whiteResize)
 
 #-------------------Drink Buttons with images and labels------------------------
-arnoldButton =  Button(root, text = 'Arnold Palmer',    image=arnold,   command=Orders.arnold,      compound = TOP)
-cosmoButton =   Button(root, text = 'Cosmopolitan',     image=cosmo,    command=Orders.cosmo,       compound = TOP)
-shirleyButton = Button(root, text = 'Shirley Temple',   image=shirley,  command=Orders.shirley,     compound = TOP)
-margButton =    Button(root, text = 'Margarita',        image=marg,     command= Orders.marg,       compound = TOP)
-mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command=Orders.mocktail,    compound = TOP)
-muleButton =    Button(root, text = 'Mexican Mule',     image=mule,     command= Orders.mule,       compound = TOP)
-pinaButton =    Button(root, text = 'Piña Colada',      image=pina,     command= Orders.pina,       compound = TOP)
-daqButton =     Button(root, text = 'Strawberry Daquiri', image=strawberry, command=Orders.daq,     compound = TOP)
-whiteButton =   Button(root, text = 'White Lady',       image=white,    command= Orders.white,      compound = TOP)
+arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command=Orders.arnold, compound = TOP)
+cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command=Orders.cosmo, compound = TOP)
+shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command=Orders.shirley, compound = TOP)
+margButton = Button(root, text = 'Margarita', image=marg, command= Orders.marg, compound = TOP)
+mocktailButton = Button(root, text = 'Island Mocktail', image=mocktail, command=Orders.mocktail, compound = TOP)
+muleButton = Button(root, text = 'Mexican Mule', image=mule, command= Orders.mule, compound = TOP)
+pinaButton = Button(root, text = 'Piña Colada', image=pina, command= Orders.pina, compound = TOP)
+daqButton = Button(root, text = 'Strawberry Daquiri', image=strawberry, command=Orders.daq, compound = TOP)
+whiteButton = Button(root, text = 'White Lady', image=white, command= Orders.white, compound = TOP)
 
 
 resetButton = Button(root, text= 'Reset the Inventory', command = reset, background='#97a258')
+emptySpace = Label(root, background='#97a258')
 #----------------Position and post buttons to tkinter window--------------------
-resetButton.grid(row=16, column=6)
+emptySpace.grid(row = 16, column = 6)
+resetButton.grid(row=20, column=6)
+
 
 muleButton.grid(row=6, column = 4)
 margButton.grid(row=6, column = 6)
