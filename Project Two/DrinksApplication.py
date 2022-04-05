@@ -32,14 +32,13 @@ entry = Entry(root, width = 40)
 entry.focus_set()
 entry.grid(row = 3, column = 6)
 
-# Button just takes labmda, but its more psychological that you've entered youre empID
-entryButton = Button(root, text="Done!", font="Helvetica 18", command=lambda:Orders)
-entryButton.grid(row = 4, column = 6)
-
-#-------------------functino to get employee id and time stamp------------------
+#-------------------function to get employee id and time stamp------------------
 def transactionData():
     
-    empID = int(entry.get())
+    try:
+        empID = int(entry.get())
+    except:
+        empID = 0
 
     if empID == 1:
         employee = 'Employee 1'
@@ -170,7 +169,6 @@ class Orders:
 
         with open('systemLog.json', "w") as file:
             json.dump(log, file)
-        #entry.delete(0, END)
     
     def cosmo():
         transactionLog = []
@@ -330,7 +328,6 @@ class Orders:
         print(transaction_data)
         transactionLog.append(transaction_data)
 
-        #transactionData()
         print("\nYou placed an order for an Arnold Palmer!")
         
         with open('Inventory.json', 'r') as jsonFile:
@@ -404,7 +401,6 @@ class Orders:
         print(transaction_data)
         transactionLog.append(transaction_data)
 
-        #transactionData()
         print("\nYou placed an order for an Island Mocktail!")
         
         with open('Inventory.json', 'r') as jsonFile:
