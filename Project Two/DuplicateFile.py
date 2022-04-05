@@ -89,6 +89,8 @@ def reset():
 
     with open('Inventory.json', 'w') as jsonFile:
         json.dump(data, jsonFile)
+    
+    print("Inventory has been refilled!")
 
 #---------class to order drinks, update inventory, and add to order log---------
 class Orders:
@@ -130,6 +132,7 @@ class Orders:
 
         with open('systemLog.json', "w") as file:
             json.dump(log, file)
+        #entry.delete(0, END)
     
     def marg():
         transactionLog = []
@@ -167,6 +170,7 @@ class Orders:
 
         with open('systemLog.json', "w") as file:
             json.dump(log, file)
+        #entry.delete(0, END)
     
     def cosmo():
         transactionLog = []
@@ -470,7 +474,7 @@ whiteResize = whiteImg.resize((150, 100))
 white = ImageTk.PhotoImage(whiteResize)
 
 #-------------------Drink Buttons with images and labels------------------------
-arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command=lambda:Orders.arnold(), compound = TOP)
+arnoldButton = Button(root, text = 'Arnold Palmer', image=arnold, command=Orders.arnold, compound = TOP)
 cosmoButton = Button(root, text = 'Cosmopolitan', image=cosmo, command=Orders.cosmo, compound = TOP)
 shirleyButton = Button(root, text = 'Shirley Temple', image=shirley, command=Orders.shirley, compound = TOP)
 margButton = Button(root, text = 'Margarita', image=marg, command= Orders.marg, compound = TOP)
