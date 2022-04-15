@@ -6,8 +6,24 @@ from Bricks import Brick
  
 pygame.init()
  
+#Ask the player(s) for their inputs in number of players and lives; validate their inputs to be legal
+numPlay = -1
+while (numPlay < 0):
+    try:
+        numPlay = int(input("Please enter number of players (1-2): "))
+    except ValueError as e:
+        print("Please enter a valid integer in the range 1-2! ")
+    except (numPlay != 1 or numPlay != 2) as n:
+        print("Please enter a value in the range 1-2! ")
 
-numPlay = int(input("Please enter number of players: "))
+lives = -1
+while (lives < 1):
+    try:
+        lives = int(input("How many lives would you like to start with (1 - 10): "))
+    except ValueError as e:
+        print("Please enter a valid integer in the range 1-15! ")
+    except (lives < 1 or lives > 10) as l:
+        print("Please enter a value in the range 1-10! ")
 
 
 # Define some colors
@@ -27,9 +43,6 @@ pygame.display.set_caption("Breakaway -- 1 or 2 players")
 
 if numPlay ==1 : 
     score = 0
-
-    #ask about lives
-    lives = 3
     
     paddleA = Paddle(WHITE, 10, 100)
     paddleA.rect.x = 780
