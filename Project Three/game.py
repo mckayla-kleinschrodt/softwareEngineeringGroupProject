@@ -159,31 +159,31 @@ if numPlay ==1 :
     #player 1 bricks
     for i in range(20):
         brick = Brick(RED,15,30)
-        brick.rect.x = 15
+        brick.rect.x = 25
         brick.rect.y = 60 + i *30
         all_sprites_list.add(brick)
         all_bricks.add(brick)
     for i in range(20):
         brick = Brick(BLUE, 15, 30)
-        brick.rect.x = 30
+        brick.rect.x = 40
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
         all_bricks.add(brick)
     for i in range(20):
         brick = Brick(YELLOW,15,30)
-        brick.rect.x = 45
+        brick.rect.x = 55
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
         all_bricks.add(brick)
     for i in range(20):
         brick = Brick(GREEN,15,30)
-        brick.rect.x = 60
+        brick.rect.x = 70
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
         all_bricks.add(brick)
     for i in range(20):
         brick = Brick(ORANGE,15,30)
-        brick.rect.x = 75
+        brick.rect.x = 85
         brick.rect.y = 60 + i * 30
         all_sprites_list.add(brick)
         all_bricks.add(brick)
@@ -211,7 +211,7 @@ if numPlay ==1 :
         all_sprites_list.update()
     
         #Check if the ball is bouncing against any of the 4 walls:
-        if ball.rect.x>=790:
+        if ball.rect.x>=795:
             ball.velocity[0] = -ball.velocity[0]
             lives -= 1
             if lives == 0:
@@ -225,9 +225,9 @@ if numPlay ==1 :
                 #Stop the Game
                 carryOn=False
     
-        if ball.rect.x<=60:
+        if ball.rect.x<=20:
             ball.velocity[0] = -ball.velocity[0]
-        if ball.rect.y>590:
+        if ball.rect.y>585:
             ball.velocity[1] = -ball.velocity[1]
         if ball.rect.y<60:
             ball.velocity[1] = -ball.velocity[1]
@@ -241,9 +241,10 @@ if numPlay ==1 :
         #Check if there is the ball collides with any of bricks
         brick_collision_list = pygame.sprite.spritecollide(ball,all_bricks,False)
         for brick in brick_collision_list:
+            brick.kill()
             ball.bounce()
             score += 1
-            brick.kill()
+            #brick.kill()
         if len(all_bricks)==0:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
@@ -442,9 +443,9 @@ elif numPlay == 2:
         brickCollisionListB = pygame.sprite.spritecollide(ballB,all_bricks,False)
 
         for brick in brickCollisionListA:
+            brick.kill()
             ball.bounce()
             scoreA += 1
-            brick.kill()
         if len(all_bricks)==0:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
@@ -457,9 +458,9 @@ elif numPlay == 2:
                 carryOn=False
 
         for brick in brickCollisionListB:
+            brick.kill()
             ballB.bounce()
             scoreB += 1
-            brick.kill()
         if len(all_bricks)==0:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
