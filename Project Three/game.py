@@ -19,12 +19,12 @@ GREEN = (0, 155, 0)
 size = (800, 600)
 screen = pygame.display.set_mode(size)
 font = pygame.font.SysFont("Arial", 20)
-pygame.display.set_caption("Welcome to Brick Pong!")
+pygame.display.set_caption("Welcome to Breakthrough!")
 
 font = pygame.font.Font(None, 24)
 text = font.render("Enter Number of Players: (1-2)", 1, WHITE)
 screen.blit(text, (70,180))
-text = font.render("Enter Lives: (1-10)", 1, WHITE)
+text = font.render("Enter Lives/Time Limit: (1-10)", 1, WHITE)
 screen.blit(text, (450,180))
 text = font.render("Enter Difficulty Level: (1 Easy, 2 Normal, 3 Hard)", 1, WHITE)
 screen.blit(text, (150,280))
@@ -243,7 +243,6 @@ if numPlay ==1 :
             brick.kill()
             ball.bounce()
             score += 1
-            #brick.kill()
         if len(all_bricks)==0:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
@@ -277,6 +276,11 @@ if numPlay ==1 :
 elif numPlay == 2:
     scoreA = 0
     scoreB = 0
+
+    counter = lives * 10000
+    timer_event = pygame.USEREVENT + 1
+    pygame.time.set_timer(timer_event, counter)
+    
     
     if difficulty == 1:
         paddleA = Paddle(WHITE, 10, 200)
@@ -392,6 +396,9 @@ elif numPlay == 2:
     # -------- Main Program Loop -----------
     while carryOn:
         # --- Main event loop
+        #pygame.time.set_timer(pygame.USEREVENT, lives * 3000)
+
+
         for event in pygame.event.get(): # User did something
             if event.type == pygame.QUIT: # If user clicked close
                 carryOn = False # Flag that we are done so we exit this loop
@@ -410,22 +417,22 @@ elif numPlay == 2:
         all_sprites_list.update()
     
         #Check if the ball is bouncing against any of the 4 walls:
-        if ball2.rect.x>=783:
+        if ball2.rect.x>=795:
             ball2.velocity[0] = -ball2.velocity[0]
         if ball2.rect.x<=360:
             ball2.velocity[0] = -ball2.velocity[0]
-        if ball2.rect.y>=580:
+        if ball2.rect.y>=575:
             ball2.velocity[1] = -ball2.velocity[1]
-        if ball2.rect.y<=60:
+        if ball2.rect.y<=68:
             ball2.velocity[1] = -ball2.velocity[1]
 
-        if ball1.rect.x>=17:
+        if ball1.rect.x>=5:
             ball1.velocity[0] = -ball1.velocity[0]
         if ball1.rect.x<=335:
             ball1.velocity[0] = -ball1.velocity[0]
-        if ball1.rect.y>=580:
+        if ball1.rect.y>=575:
             ball1.velocity[1] = -ball1.velocity[1]
-        if ball1.rect.y<=60:
+        if ball1.rect.y<=68:
             ball1.velocity[1] = -ball1.velocity[1]
 
     
@@ -452,7 +459,25 @@ elif numPlay == 2:
             brick.kill()
             ball1.bounce()
             scoreA += 1
-        if len(player2Bricks)==0:
+
+        for brick in brickCollisionListB:
+            brick.kill()
+            ball2.bounce()
+            scoreB += 1
+        
+        #if scoreB == 90:
+        if event.type == timer_event:
+            if scoreA > scoreB:
+            #Display Level Complete Message for 3 seconds
+                font = pygame.font.Font(None, 74)
+                text = font.render("PLAYER 1 WINS!", 1, WHITE)
+                screen.blit(text, (200,300))
+                pygame.display.flip()
+                pygame.time.wait(3000)
+    
+                #Stop the Game
+                carryOn=False
+            elif scoreB > scoreA:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
                 text = font.render("PLAYER 2 WINS!", 1, WHITE)
@@ -462,18 +487,14 @@ elif numPlay == 2:
     
                 #Stop the Game
                 carryOn=False
-
-        for brick in brickCollisionListB:
-            brick.kill()
-            ball2.bounce()
-            scoreB += 1
-        if len(player1Bricks)==0:
-            #Display Level Complete Message for 3 seconds
-                font = pygame.font.Font(None, 74)
-                text = font.render("PLAYER 1 WINS!", 1, WHITE)
-                screen.blit(text, (200,300))
-                pygame.display.flip()
-                pygame.time.wait(3000)
+            else:
+                if scoreA == scoreB:
+                #Display Level Complete Message for 3 seconds
+                    font = pygame.font.Font(None, 74)
+                    text = font.render("TIE!", 1, WHITE)
+                    screen.blit(text, (200,300))
+                    pygame.display.flip()
+                    pygame.time.wait(3000)
     
                 #Stop the Game
                 carryOn=False
