@@ -1,14 +1,10 @@
-# Import the pygame library and initialise the game engine
+# Import the pygame library and initialize the game engine
 import pygame
 from Paddle import Paddle
 from Ball import Ball
 from Bricks import Brick
  
 pygame.init()
- 
-
-numPlay = int(input("Please enter number of players: "))
-
 
 # Define some colors
 BLACK = (0,0,0)
@@ -22,20 +18,132 @@ GREEN = (0, 155, 0)
 # Open a new window
 size = (800, 600)
 screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Breakaway -- 1 or 2 players")
+font = pygame.font.SysFont("Arial", 20)
+pygame.display.set_caption("Welcome to Brick Pong!")
 
+font = pygame.font.Font(None, 24)
+text = font.render("Enter Number of Players: (1-2)", 1, WHITE)
+screen.blit(text, (70,180))
+text = font.render("Enter Lives: (1-10)", 1, WHITE)
+screen.blit(text, (450,180))
+text = font.render("Enter Difficulty Level: (1 Easy, 2 Normal, 3 Hard)", 1, WHITE)
+screen.blit(text, (150,280))
+
+# inputs for inital game screen 
+user_input = ""
+user_input_players = ""
+user_input_lives = ""
+user_input_difficulty = ""
+players = 0
+lives = 0
+difficulty = 0
+input_rect = pygame.Rect(100, 200, 140, 32)
+input_rect_lives = pygame.Rect(450, 200, 140, 32)
+input_rect_difficulty = pygame.Rect(170, 300, 140, 32)
+input_players = False
+input_lives = False
+input_difficulty = False
+index = True
+
+# -------- Initial Program Loop -----------
+while index:
+    # --- Events for setting up the game
+    for event in pygame.event.get(): # User did something
+        if event.type == pygame.MOUSEBUTTONDOWN: # If user clicks in text box
+            if input_rect.collidepoint(event.pos):
+                input_players = True
+                input_lives = False
+                input_difficulty = False
+            elif input_rect_lives.collidepoint(event.pos):
+                input_lives = True
+                input_players = False
+                input_difficulty = False
+            else:
+                input_difficulty = True
+                input_lives = False
+                input_players = False
+        if event.type ==pygame.KEYDOWN:
+            if input_players:
+                user_input_players += event.unicode 
+                try:
+                    players = int(user_input_players)
+                    if players < 1 or players > 2:
+                        print("Invalid player selection! Please input 1 or 2")
+                        user_input_players = ""
+                except:
+                    print("Invalid player selection! Please input 1 or 2")
+                    user_input_players = ""
+            elif input_lives:
+                user_input_lives += event.unicode
+                try:
+                    lives = int(user_input_lives)
+                    if lives < 1 or lives > 10:
+                        print("Invalid player lives selection! Please input 1-10")
+                        user_input_lives = ""
+                except:
+                    print("Invalid player lives selection! Please input 1-10")
+                    user_input_lives = ""
+            else:
+                user_input_difficulty += event.unicode 
+                try:
+                    difficulty = int(user_input_difficulty)
+                    if difficulty < 1 or difficulty > 3:
+                        print("Invalid difficulty selection! Please input 1 for easy mode, 2 for normal mode, 3 for hard mode")
+                        user_input_difficulty = ""
+                except:
+                    print("Invalid difficulty selection! Please input 1 for easy mode, 2 for normal mode, 3 for hard mode")
+                    user_input_difficulty = ""
+        if event.type==pygame.K_RETURN:
+            index = False
+            break
+        
+
+    # draw rectangle and argument passed which should
+    # be on screen
+    pygame.draw.rect(screen, WHITE, input_rect)
+    pygame.draw.rect(screen, WHITE, input_rect_lives)
+    pygame.draw.rect(screen, WHITE, input_rect_difficulty)
+    
+    text_surface_players = font.render(user_input_players, True, BLACK)
+    text_surface_lives = font.render(user_input_lives, True, BLACK)
+    text_surface_difficulty = font.render(user_input_difficulty, True, BLACK)      
+
+    # render at position stated in arguments
+    screen.blit(text_surface_players, (input_rect.x+5, input_rect.y+5))
+    screen.blit(text_surface_lives, (input_rect_lives.x+5, input_rect_lives.y+5))
+    screen.blit(text_surface_difficulty, (input_rect_difficulty.x+5, input_rect_difficulty.y+5))
+
+    # set width of textfield so that text cannot get
+    # outside of user's text input
+    input_rect.w = max(100, text_surface_players.get_width()+10)
+    input_rect_lives.w = max(100, text_surface_lives.get_width()+10)
+    input_rect_difficulty.w = max(100, text_surface_difficulty.get_width()+10)
+
+    pygame.display.flip()
+
+    if players != 0 and lives != 0 and difficulty != 0:
+        screen.fill(BLACK)
+        index = False
+        
+# -------- END of Initial Program Loop -----------
+# -------- BEGIN Game Play -----------
+numPlay = players
 
 if numPlay ==1 : 
     score = 0
-
-    #ask about lives
-    lives = 3
     
-    paddleA = Paddle(WHITE, 10, 100)
+    if difficulty == 1:
+        paddleA = Paddle(WHITE, 10, 200)
+        ball = Ball(WHITE,50, 50)
+    elif difficulty == 3:
+        paddleA = Paddle(WHITE, 10, 50)
+        ball = Ball(WHITE, 5, 5)
+    else:
+        paddleA = Paddle(WHITE, 10, 100)
+        ball = Ball(WHITE,10,10)
+
     paddleA.rect.x = 780
     paddleA.rect.y = 200
-
-    ball = Ball(WHITE,10,10)
     ball.rect.x = 195
     ball.rect.y = 195
 
@@ -169,22 +277,32 @@ elif numPlay == 2:
     scoreA = 0
     scoreB = 0
 
-    #ask about lives
-    lives = 3
+    lives = lives
     
-    paddleA = Paddle(WHITE, 10, 100)
+    if difficulty == 1:
+        paddleA = Paddle(WHITE, 10, 200)
+        paddleB = Paddle(WHITE, 10, 200)
+        ball = Ball(WHITE,50, 50)
+        ballB = Ball(WHITE,50, 50)
+
+    elif difficulty == 3:
+        paddleA = Paddle(WHITE, 10, 50)
+        paddleB = Paddle(WHITE, 10, 50)
+        ball = Ball(WHITE, 5, 5)
+        ballB = Ball(WHITE, 5, 5)
+    else:
+        paddleA = Paddle(WHITE, 10, 100)
+        paddleB = Paddle(WHITE, 10, 100)
+        ball = Ball(WHITE,10,10)
+        ballB = Ball(WHITE,10,10)
+
+    
     paddleA.rect.x = 20
     paddleA.rect.y = 200
-    
-    paddleB = Paddle(WHITE, 10, 100)
     paddleB.rect.x = 780
     paddleB.rect.y = 200
-    
-    ball = Ball(WHITE,10,10)
     ball.rect.x = 425
     ball.rect.y = 195
-
-
 
     
     #This will be a list that will contain all the sprites we intend to use in our game.
