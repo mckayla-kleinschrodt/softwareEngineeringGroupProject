@@ -88,10 +88,10 @@ while index:
                 try:
                     difficulty = int(user_input_difficulty)
                     if difficulty < 1 or difficulty > 3:
-                        print("Invalid difficulty selection! Please input 1 for ease mode, 2 for normal mode, 3 for hard mode")
+                        print("Invalid difficulty selection! Please input 1 for easy mode, 2 for normal mode, 3 for hard mode")
                         user_input_difficulty = ""
                 except:
-                    print("Invalid difficulty selection! Please input 1 for ease mode, 2 for normal mode, 3 for hard mode")
+                    print("Invalid difficulty selection! Please input 1 for easy mode, 2 for normal mode, 3 for hard mode")
                     user_input_difficulty = ""
         if event.type==pygame.K_RETURN:
             index = False
@@ -132,11 +132,18 @@ numPlay = players
 if numPlay ==1 : 
     score = 0
     
-    paddleA = Paddle(WHITE, 10, 100)
+    if difficulty == 1:
+        paddleA = Paddle(WHITE, 10, 200)
+        ball = Ball(WHITE,50, 50)
+    elif difficulty == 3:
+        paddleA = Paddle(WHITE, 10, 50)
+        ball = Ball(WHITE, 5, 5)
+    else:
+        paddleA = Paddle(WHITE, 10, 100)
+        ball = Ball(WHITE,10,10)
+
     paddleA.rect.x = 780
     paddleA.rect.y = 200
-
-    ball = Ball(WHITE,10,10)
     ball.rect.x = 195
     ball.rect.y = 195
 
@@ -270,22 +277,32 @@ elif numPlay == 2:
     scoreA = 0
     scoreB = 0
 
-    #ask about lives
-    lives = 3
+    lives = lives
     
-    paddleA = Paddle(WHITE, 10, 100)
+    if difficulty == 1:
+        paddleA = Paddle(WHITE, 10, 200)
+        paddleB = Paddle(WHITE, 10, 200)
+        ball = Ball(WHITE,50, 50)
+        ballB = Ball(WHITE,50, 50)
+
+    elif difficulty == 3:
+        paddleA = Paddle(WHITE, 10, 50)
+        paddleB = Paddle(WHITE, 10, 50)
+        ball = Ball(WHITE, 5, 5)
+        ballB = Ball(WHITE, 5, 5)
+    else:
+        paddleA = Paddle(WHITE, 10, 100)
+        paddleB = Paddle(WHITE, 10, 100)
+        ball = Ball(WHITE,10,10)
+        ballB = Ball(WHITE,10,10)
+
+    
     paddleA.rect.x = 20
     paddleA.rect.y = 200
-    
-    paddleB = Paddle(WHITE, 10, 100)
     paddleB.rect.x = 780
     paddleB.rect.y = 200
-    
-    ball = Ball(WHITE,10,10)
     ball.rect.x = 425
     ball.rect.y = 195
-
-
 
     
     #This will be a list that will contain all the sprites we intend to use in our game.
