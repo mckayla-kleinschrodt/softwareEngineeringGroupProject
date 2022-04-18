@@ -196,7 +196,6 @@ if numPlay ==1 :
     
     # -------- Main Program Loop -----------
     while carryOn:
-        # --- Main event loop
         for event in pygame.event.get(): # User did something
             if event.type == pygame.QUIT: # If user clicked close
                 carryOn = False # Flag that we are done so we exit this loop
@@ -227,7 +226,7 @@ if numPlay ==1 :
     
         if ball.rect.x<=20:
             ball.velocity[0] = -ball.velocity[0]
-        if ball.rect.y>585:
+        if ball.rect.y>560:
             ball.velocity[1] = -ball.velocity[1]
         if ball.rect.y<60:
             ball.velocity[1] = -ball.velocity[1]
@@ -256,7 +255,6 @@ if numPlay ==1 :
                 #Stop the Game
                 carryOn=False
     
-        # --- Drawing code should go here
         screen.fill(BLACK)
         pygame.draw.line(screen, WHITE, [80, 60], [800, 60], 2)
     
@@ -279,35 +277,33 @@ if numPlay ==1 :
 elif numPlay == 2:
     scoreA = 0
     scoreB = 0
-
-    lives = lives
     
     if difficulty == 1:
         paddleA = Paddle(WHITE, 10, 200)
         paddleB = Paddle(WHITE, 10, 200)
-        ball = Ball(WHITE,50, 50)
-        ballB = Ball(WHITE,50, 50)
+        ball1 = Ball(WHITE,50, 50)
+        ball2 = Ball(WHITE,50, 50)
 
     elif difficulty == 3:
         paddleA = Paddle(WHITE, 10, 50)
         paddleB = Paddle(WHITE, 10, 50)
-        ball = Ball(WHITE, 5, 5)
-        ballB = Ball(WHITE, 5, 5)
+        ball1 = Ball(WHITE, 5, 5)
+        ball2 = Ball(WHITE, 5, 5)
     else:
         paddleA = Paddle(WHITE, 10, 100)
         paddleB = Paddle(WHITE, 10, 100)
-        ball = Ball(WHITE,10,10)
-        ballB = Ball(WHITE,10,10)
+        ball1 = Ball(WHITE,10,10)
+        ball2 = Ball(WHITE,10,10)
 
     
     paddleA.rect.x = 20
     paddleA.rect.y = 200
     paddleB.rect.x = 780
     paddleB.rect.y = 200
-    ball.rect.x = 425
-    ball.rect.y = 195
-    ballB.rect.x = 70
-    ballB.rect.y = 195
+    ball1.rect.x = 70
+    ball1.rect.y = 195
+    ball2.rect.x = 425
+    ball2.rect.y = 195
 
     
     #This will be a list that will contain all the sprites we intend to use in our game.
@@ -316,10 +312,11 @@ elif numPlay == 2:
     # Add the 2 paddles and the ball to the list of objects
     all_sprites_list.add(paddleA)
     all_sprites_list.add(paddleB)
-    all_sprites_list.add(ball)
-    all_sprites_list.add(ballB)
+    all_sprites_list.add(ball1)
+    all_sprites_list.add(ball2)
 
-    all_bricks = pygame.sprite.Group()
+    player1Bricks = pygame.sprite.Group()
+    player2Bricks = pygame.sprite.Group()
 
     #player 1 bricks
     for i in range(20):
@@ -327,31 +324,31 @@ elif numPlay == 2:
         brick.rect.x = 270
         brick.rect.y = 60 + i *30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player1Bricks.add(brick)
     for i in range(20):
         brick = Brick(BLUE, 15, 30)
         brick.rect.x = 285
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player1Bricks.add(brick)
     for i in range(20):
         brick = Brick(YELLOW,15,30)
         brick.rect.x = 300
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player1Bricks.add(brick)
     for i in range(20):
         brick = Brick(GREEN,15,30)
         brick.rect.x = 315
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player1Bricks.add(brick)
     for i in range(20):
         brick = Brick(ORANGE,15,30)
         brick.rect.x = 330
         brick.rect.y = 60 + i*30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player1Bricks.add(brick)
 
 
     #player 2 bricks
@@ -360,31 +357,31 @@ elif numPlay == 2:
         brick.rect.x = 425
         brick.rect.y = 60 + i * 30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player2Bricks.add(brick)
     for i in range(20):
         brick = Brick(BLUE, 15, 30)
         brick.rect.x = 410
         brick.rect.y = 60 + i* 30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player2Bricks.add(brick)
     for i in range(20):
         brick = Brick(YELLOW,15,30)
         brick.rect.x = 395
         brick.rect.y = 60 + i* 30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player2Bricks.add(brick)
     for i in range(20):
         brick = Brick(GREEN,15,30)
         brick.rect.x = 380
         brick.rect.y = 60 + i* 30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player2Bricks.add(brick)
     for i in range(20):
         brick = Brick(ORANGE,15,30)
         brick.rect.x = 365
         brick.rect.y = 60 + i* 30
         all_sprites_list.add(brick)
-        all_bricks.add(brick)
+        player2Bricks.add(brick)
     
     # The loop will carry on until the user exits the game (e.g. clicks the close button).
     carryOn = True
@@ -413,43 +410,52 @@ elif numPlay == 2:
         all_sprites_list.update()
     
         #Check if the ball is bouncing against any of the 4 walls:
-        if ball.rect.x>=790 or ballB.rect.x>=790:
-            ball.velocity[0] = -ball.velocity[0]
-            ballB.velocity[0] = -ballB.velocity[0]
-        if ball.rect.x<=10 or ballB.rect.x<=10:
-            ball.velocity[0] = -ball.velocity[0]
-            ballB.velocity[0] = -ballB.velocity[0]
-        if ball.rect.y>=500 or ballB.rect.y>=500:
-            ball.velocity[1] = -ball.velocity[1]
-            ballB.velocity[1] = -ballB.velocity[1]
-        if ball.rect.y<=60 or ballB.rect.y<=60:
-            ball.velocity[1] = -ball.velocity[1]
-            ballB.velocity[1] = -ballB.velocity[1]
+        if ball2.rect.x>=783:
+            ball2.velocity[0] = -ball2.velocity[0]
+        if ball2.rect.x<=360:
+            ball2.velocity[0] = -ball2.velocity[0]
+        if ball2.rect.y>=580:
+            ball2.velocity[1] = -ball2.velocity[1]
+        if ball2.rect.y<=60:
+            ball2.velocity[1] = -ball2.velocity[1]
+
+        if ball1.rect.x>=17:
+            ball1.velocity[0] = -ball1.velocity[0]
+        if ball1.rect.x<=335:
+            ball1.velocity[0] = -ball1.velocity[0]
+        if ball1.rect.y>=580:
+            ball1.velocity[1] = -ball1.velocity[1]
+        if ball1.rect.y<=60:
+            ball1.velocity[1] = -ball1.velocity[1]
+
     
         #Detect collisions between the ball and the paddles
-        if pygame.sprite.collide_mask(ball, paddleB):
-            ball.rect.x -= ball.velocity[0]
-            ball.rect.y -= ball.velocity[1]
-            ball.bounce()
+        if pygame.sprite.collide_mask(ball2, paddleB):
+            ball2.rect.x -= ball2.velocity[0]
+            if ball2.rect.y <= 783:
+                ball2.rect.y += ball2.velocity[1]
+            elif ball2.rect.y > 783:
+                ball2.rect.y -= ball2.velocity[1]
+            ball2.bounce()
         
         #Detect collisions between the ball and the paddles
-        if pygame.sprite.collide_mask(ballB, paddleA):
-            ballB.rect.x -= ballB.velocity[0]
-            ballB.rect.y -= ballB.velocity[1]
-            ballB.bounce()
+        if pygame.sprite.collide_mask(ball1, paddleA):
+            ball1.rect.x -= ball1.velocity[0]
+            ball1.rect.y -= ball1.velocity[1]
+            ball1.bounce()
     
         #Check if there is the ball collides with any of bricks
-        brickCollisionListA = pygame.sprite.spritecollide(ball,all_bricks,False)
-        brickCollisionListB = pygame.sprite.spritecollide(ballB,all_bricks,False)
+        brickCollisionListB = pygame.sprite.spritecollide(ball2,player2Bricks,False)
+        brickCollisionListA = pygame.sprite.spritecollide(ball1,player1Bricks,False)
 
         for brick in brickCollisionListA:
             brick.kill()
-            ball.bounce()
+            ball1.bounce()
             scoreA += 1
-        if len(all_bricks)==0:
+        if len(player2Bricks)==0:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
-                text = font.render("YOU WIN!", 1, WHITE)
+                text = font.render("PLAYER 2 WINS!", 1, WHITE)
                 screen.blit(text, (200,300))
                 pygame.display.flip()
                 pygame.time.wait(3000)
@@ -459,12 +465,12 @@ elif numPlay == 2:
 
         for brick in brickCollisionListB:
             brick.kill()
-            ballB.bounce()
+            ball2.bounce()
             scoreB += 1
-        if len(all_bricks)==0:
+        if len(player1Bricks)==0:
             #Display Level Complete Message for 3 seconds
                 font = pygame.font.Font(None, 74)
-                text = font.render("YOU WIN!", 1, WHITE)
+                text = font.render("PLAYER 1 WINS!", 1, WHITE)
                 screen.blit(text, (200,300))
                 pygame.display.flip()
                 pygame.time.wait(3000)
@@ -481,7 +487,7 @@ elif numPlay == 2:
         text = font.render("Score Player 1: " + str(scoreA), 1, WHITE)
         screen.blit(text, (20,10))
         text = font.render("Score Player 2: " + str(scoreB), 1, WHITE)
-        screen.blit(text, (400,10))
+        screen.blit(text, (645,10))
 
     
         #Now let's draw all the sprites in one go. (For now we only have 2 sprites!)
