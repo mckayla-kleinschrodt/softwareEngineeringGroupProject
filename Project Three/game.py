@@ -1,4 +1,5 @@
 # Import the pygame library and initialize the game engine
+import random
 import pygame
 from Paddle import Paddle
 from Ball import Ball
@@ -14,7 +15,11 @@ ORANGE = (255, 165, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 GREEN = (0, 155, 0)
- 
+
+colorlist = [RED, ORANGE, BLUE, YELLOW, GREEN]
+paddleColor = WHITE
+ballColor = WHITE
+
 # Open a new window
 size = (800, 600)
 screen = pygame.display.set_mode(size)
@@ -28,21 +33,27 @@ text = font.render("Enter Lives/Time Limit: (1-10)", 1, WHITE)
 screen.blit(text, (450,180))
 text = font.render("Enter Difficulty Level: (1 Easy, 2 Normal, 3 Hard)", 1, WHITE)
 screen.blit(text, (150,280))
+text = font.render("Enter color scheme for paddle and ball: (1 Jedi, 2 Sith, 3 Random)", 1, WHITE)
+screen.blit(text, (70,380))
 
 # inputs for inital game screen 
 user_input = ""
 user_input_players = ""
 user_input_lives = ""
 user_input_difficulty = ""
+user_input_color = ""
 players = 0
 lives = 0
 difficulty = 0
+colorScheme = 0
 input_rect = pygame.Rect(100, 200, 140, 32)
 input_rect_lives = pygame.Rect(450, 200, 140, 32)
 input_rect_difficulty = pygame.Rect(170, 300, 140, 32)
+input_rect_color = pygame.Rect(100, 400, 140, 32)
 input_players = False
 input_lives = False
 input_difficulty = False
+input_color = False
 index = True
 
 # -------- Initial Program Loop -----------
@@ -54,14 +65,22 @@ while index:
                 input_players = True
                 input_lives = False
                 input_difficulty = False
+                input_color = False
             elif input_rect_lives.collidepoint(event.pos):
                 input_lives = True
                 input_players = False
                 input_difficulty = False
-            else:
+                input_color = False
+            elif input_rect_difficulty.collidepoint(event.pos):
                 input_difficulty = True
                 input_lives = False
                 input_players = False
+                input_color = False
+            elif input_rect_color.collidepoint(event.pos):
+                input_color = True
+                input_players = False
+                input_lives = False
+                input_difficulty = False
         if event.type ==pygame.KEYDOWN:
             if input_players:
                 user_input_players += event.unicode 
@@ -83,8 +102,8 @@ while index:
                 except:
                     print("Invalid player lives selection! Please input 1-10")
                     user_input_lives = ""
-            else:
-                user_input_difficulty += event.unicode 
+            elif input_difficulty:
+                user_input_difficulty += event.unicode
                 try:
                     difficulty = int(user_input_difficulty)
                     if difficulty < 1 or difficulty > 3:
@@ -93,6 +112,16 @@ while index:
                 except:
                     print("Invalid difficulty selection! Please input 1 for easy mode, 2 for normal mode, 3 for hard mode")
                     user_input_difficulty = ""
+            elif input_color:
+                user_input_color += event.unicode
+                try:
+                    colorScheme = int(user_input_color)
+                    if colorScheme < 1 or colorScheme > 3:
+                        print("Invalid color selection! Please input color scheme for paddle and ball: (1 Jedi, 2 Sith, 3 Random)")
+                        user_input_color = ""
+                except:
+                    print("Invalid color selection! Please input color scheme for paddle and ball: (1 Jedi, 2 Sith, 3 Random)")
+                    user_input_color = ""
         if event.type==pygame.K_RETURN:
             index = False
             break
@@ -103,25 +132,29 @@ while index:
     pygame.draw.rect(screen, WHITE, input_rect)
     pygame.draw.rect(screen, WHITE, input_rect_lives)
     pygame.draw.rect(screen, WHITE, input_rect_difficulty)
+    pygame.draw.rect(screen, WHITE, input_rect_color)
     
     text_surface_players = font.render(user_input_players, True, BLACK)
     text_surface_lives = font.render(user_input_lives, True, BLACK)
-    text_surface_difficulty = font.render(user_input_difficulty, True, BLACK)      
+    text_surface_difficulty = font.render(user_input_difficulty, True, BLACK) 
+    text_surface_color = font.render(user_input_color, True, BLACK)       
 
     # render at position stated in arguments
     screen.blit(text_surface_players, (input_rect.x+5, input_rect.y+5))
     screen.blit(text_surface_lives, (input_rect_lives.x+5, input_rect_lives.y+5))
     screen.blit(text_surface_difficulty, (input_rect_difficulty.x+5, input_rect_difficulty.y+5))
+    screen.blit(text_surface_color, (input_rect_color.x+5, input_rect_color.y+5))
 
     # set width of textfield so that text cannot get
     # outside of user's text input
     input_rect.w = max(100, text_surface_players.get_width()+10)
     input_rect_lives.w = max(100, text_surface_lives.get_width()+10)
     input_rect_difficulty.w = max(100, text_surface_difficulty.get_width()+10)
+    input_rect_color.w = max(100, text_surface_color.get_width()+10)
 
     pygame.display.flip()
 
-    if players != 0 and lives != 0 and difficulty != 0:
+    if players != 0 and lives != 0 and difficulty != 0 and colorScheme != 0:
         screen.fill(BLACK)
         index = False
         
@@ -129,20 +162,30 @@ while index:
 
 
 # -------- BEGIN Game Play -----------
+if colorScheme == 1:
+    paddleColor = BLUE
+    ballColor = GREEN
+elif colorScheme == 2:
+    paddleColor = RED
+    ballColor = RED
+else:
+    paddleColor = random.choice(colorlist)
+    ballColor = random.choice(colorlist)
+
 numPlay = players
 
 if numPlay ==1 : 
     score = 0
     
     if difficulty == 1:
-        paddleA = Paddle(WHITE, 10, 200)
-        ball = Ball(WHITE,50, 50)
+        paddleA = Paddle(paddleColor, 10, 200)
+        ball = Ball(ballColor,50, 50)
     elif difficulty == 3:
-        paddleA = Paddle(WHITE, 10, 50)
-        ball = Ball(WHITE, 5, 5)
+        paddleA = Paddle(paddleColor, 10, 50)
+        ball = Ball(ballColor, 5, 5)
     else:
-        paddleA = Paddle(WHITE, 10, 100)
-        ball = Ball(WHITE,10,10)
+        paddleA = Paddle(paddleColor, 10, 100)
+        ball = Ball(ballColor,10,10)
 
     paddleA.rect.x = 780
     paddleA.rect.y = 200
@@ -283,21 +326,21 @@ elif numPlay == 2:
     
     
     if difficulty == 1:
-        paddleA = Paddle(WHITE, 10, 200)
-        paddleB = Paddle(WHITE, 10, 200)
-        ball1 = Ball(WHITE,50, 50)
-        ball2 = Ball(WHITE,50, 50)
+        paddleA = Paddle(paddleColor, 10, 200)
+        paddleB = Paddle(paddleColor, 10, 200)
+        ball1 = Ball(ballColor,50, 50)
+        ball2 = Ball(ballColor,50, 50)
 
     elif difficulty == 3:
-        paddleA = Paddle(WHITE, 10, 50)
-        paddleB = Paddle(WHITE, 10, 50)
-        ball1 = Ball(WHITE, 5, 5)
-        ball2 = Ball(WHITE, 5, 5)
+        paddleA = Paddle(paddleColor, 10, 50)
+        paddleB = Paddle(paddleColor, 10, 50)
+        ball1 = Ball(ballColor, 5, 5)
+        ball2 = Ball(ballColor, 5, 5)
     else:
-        paddleA = Paddle(WHITE, 10, 100)
-        paddleB = Paddle(WHITE, 10, 100)
-        ball1 = Ball(WHITE,10,10)
-        ball2 = Ball(WHITE,10,10)
+        paddleA = Paddle(paddleColor, 10, 100)
+        paddleB = Paddle(paddleColor, 10, 100)
+        ball1 = Ball(ballColor,10,10)
+        ball2 = Ball(ballColor,10,10)
 
     
     paddleA.rect.x = 20
