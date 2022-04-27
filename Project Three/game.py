@@ -7,6 +7,8 @@ from Bricks import Brick
  
 pygame.init()
 
+
+
 # Define some colors
 BLACK = (0,0,0)
 WHITE = (255,255,255)
@@ -15,6 +17,10 @@ ORANGE = (255, 165, 0)
 BLUE = (0, 0, 255)
 YELLOW = (255, 255, 0)
 GREEN = (0, 155, 0)
+
+paddleSound = pygame.mixer.Sound('Project Three/beep.mp3')
+missSound = pygame.mixer.Sound('Project Three/erased.mp3')
+image = pygame.image.load('Project Three/breakthrough.jpg')
 
 colorlist = [RED, ORANGE, BLUE, YELLOW, GREEN]
 paddleColor = WHITE
@@ -134,12 +140,14 @@ while index:
     pygame.draw.rect(screen, WHITE, input_rect_difficulty)
     pygame.draw.rect(screen, WHITE, input_rect_color)
     
+    
     text_surface_players = font.render(user_input_players, True, BLACK)
     text_surface_lives = font.render(user_input_lives, True, BLACK)
     text_surface_difficulty = font.render(user_input_difficulty, True, BLACK) 
     text_surface_color = font.render(user_input_color, True, BLACK)       
 
     # render at position stated in arguments
+    screen.blit(image, (200, 0))
     screen.blit(text_surface_players, (input_rect.x+5, input_rect.y+5))
     screen.blit(text_surface_lives, (input_rect_lives.x+5, input_rect_lives.y+5))
     screen.blit(text_surface_difficulty, (input_rect_difficulty.x+5, input_rect_difficulty.y+5))
@@ -254,6 +262,7 @@ if numPlay ==1 :
     
         #Check if the ball is bouncing against any of the 4 walls:
         if ball.rect.x>=795:
+            pygame.mixer.Sound.play(missSound)
             ball.velocity[0] = -ball.velocity[0]
             lives -= 1
             if lives == 0:
@@ -276,6 +285,7 @@ if numPlay ==1 :
     
         #Detect collisions between the ball and the paddles
         if pygame.sprite.collide_mask(ball, paddleA):
+            pygame.mixer.Sound.play(paddleSound)
             ball.rect.x -= ball.velocity[0]
             ball.rect.y -= ball.velocity[1]
             ball.bounce()
@@ -482,6 +492,7 @@ elif numPlay == 2:
         #Detect collisions between the ball and the paddles
         if pygame.sprite.collide_mask(ball2, paddleB):
             ball2.rect.x -= ball2.velocity[0]
+            pygame.mixer.Sound.play(paddleSound)
             if ball2.rect.y <= 783:
                 ball2.rect.y += ball2.velocity[1]
             elif ball2.rect.y > 783:
@@ -490,6 +501,7 @@ elif numPlay == 2:
         
         #Detect collisions between the ball and the paddles
         if pygame.sprite.collide_mask(ball1, paddleA):
+            pygame.mixer.Sound.play(paddleSound)
             ball1.rect.x -= ball1.velocity[0]
             ball1.rect.y -= ball1.velocity[1]
             ball1.bounce()
